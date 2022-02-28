@@ -15,9 +15,29 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   email       String  @unique
-  password    String
+  hash        String
 
-  firstName  String?
-  lastName   String?
+  firstName   String?
+  lastName    String?
+
+  bookmarks   Bookmark[]
+
+  @@map("users")
 }
+
+model Bookmark {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  title       String
+  link        String
+  description String?
+
+  userId      String
+  user        User @relation(fields: [userId], references: [id])
+
+  @@map("bookmarks")
+}
+
 
