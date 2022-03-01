@@ -1,5 +1,9 @@
 # NestJS Demo
 
+## Next step
+
+- [ ] [Passport and JWT Token](https://youtu.be/GHTA143_b-s?t=5233)
+
 ## Resources
 
 - [NestJs Course for Beginners - Create a REST API](https://www.youtube.com/watch?v=GHTA143_b-s)
