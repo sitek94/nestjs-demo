@@ -12,6 +12,7 @@
 
 - [NestJs Course for Beginners - Create a REST API](https://www.youtube.com/watch?v=GHTA143_b-s)
 - [argon2](https://github.com/ranisalt/node-argon2) - hashing password and token
+- [JWT](https://jwt.io/) - JSON Web Tokens
 
 ## Installation
 

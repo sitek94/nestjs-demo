@@ -3,10 +3,16 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { AuthDto } from './dto'
 import * as argon from 'argon2'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
+import { JwtService } from '@nestjs/jwt'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private jwtService: JwtService,
+    private configService: ConfigService,
+  ) {}
 
   async signup(dto: AuthDto) {
     // Generate password hash
@@ -14,18 +20,14 @@ export class AuthService {
 
     try {
       // Save new user in the db
-      const user = await this.prisma.user.create({
+      const user = await this.prismaService.user.create({
         data: {
           email: dto.email,
           hash,
         },
       })
 
-      // Don't return the hash to the client!
-      delete user.hash
-
-      // Return saved user
-      return user
+      return this.signToken({ userId: user.id, email: user.email })
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
@@ -38,7 +40,7 @@ export class AuthService {
 
   async signin(dto: AuthDto) {
     // Find the user by email
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prismaService.user.findUnique({
       where: {
         email: dto.email,
       },
@@ -55,8 +57,21 @@ export class AuthService {
       throw new ForbiddenException('Invalid password')
     }
 
-    delete user.hash
+    return this.signToken({ userId: user.id, email: user.email })
+  }
 
-    return user
+  async signToken(user: {
+    userId: string
+    email: string
+  }): Promise<{ access_token: string }> {
+    const payload = { sub: user.userId, email: user.email }
+    const token = await this.jwtService.signAsync(payload, {
+      expiresIn: '1d',
+      secret: this.configService.get('JWT_SECRET'),
+    })
+
+    return {
+      access_token: token,
+    }
   }
 }
