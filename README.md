@@ -4,6 +4,10 @@
 
 - [ ] [Passport and JWT Token](https://youtu.be/GHTA143_b-s?t=5233)
 
+## Notes
+
+- `@Injectable()` decorator is used when you want to inject some dependencies into your class.
+
 ## Resources
 
 - [NestJs Course for Beginners - Create a REST API](https://www.youtube.com/watch?v=GHTA143_b-s)
