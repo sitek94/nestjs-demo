@@ -1,8 +1,9 @@
 # NestJS Demo
 
-## Next step
+## Tasks
 
-- [ ] [Passport and JWT Token](https://youtu.be/GHTA143_b-s?t=5233)
+- [x] [Passport and JWT Token](https://youtu.be/GHTA143_b-s?t=5233)
+- [ ] [Custom param decorators](https://www.youtube.com/watch?v=GHTA143_b-s&t=12419s)
 
 ## Notes
 
