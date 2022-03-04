@@ -1,8 +1,8 @@
-import { Test } from '@nestjs/testing'
-import { AppModule } from '../src/app.module'
 import { INestApplication, ValidationPipe } from '@nestjs/common'
-import { PrismaService } from '../src/prisma/prisma.service'
+import { Test } from '@nestjs/testing'
 
+import { AppModule } from '../src/app.module'
+import { PrismaService } from '../src/prisma/prisma.service'
 /**
  * NestJS: Testing Utilities
  * https://docs.nestjs.com/fundamentals/testing#testing-utilities
