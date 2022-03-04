@@ -5,6 +5,7 @@ import * as pactum from 'pactum'
 import { AppModule } from '../src/app.module'
 import { AuthDto } from '../src/auth/dto'
 import { PrismaService } from '../src/prisma/prisma.service'
+import { EditUserDto } from '../src/user/dto'
 /**
  * NestJS: Testing Utilities
  * https://docs.nestjs.com/fundamentals/testing#testing-utilities
@@ -43,7 +44,7 @@ describe('App E2E', () => {
 
   describe('Auth', () => {
     const dto: AuthDto = {
-      email: 'aragorn@gondor.city',
+      email: 'aragorn@strider.com',
       password: 'arwen', // Omg so cute
     }
 
@@ -52,7 +53,7 @@ describe('App E2E', () => {
         return pactum
           .spec()
           .post('/auth/signup')
-          .withJson({
+          .withBody({
             password: dto.password,
           })
           .expectStatus(400)
@@ -62,7 +63,7 @@ describe('App E2E', () => {
         return pactum
           .spec()
           .post('/auth/signup')
-          .withJson({
+          .withBody({
             email: dto.email,
           })
           .expectStatus(400)
@@ -76,7 +77,7 @@ describe('App E2E', () => {
         return pactum
           .spec()
           .post('/auth/signup')
-          .withJson(dto)
+          .withBody(dto)
           .expectStatus(201)
         // .inspect()
         // 👆 Uncomment this line to see request and response bodies
@@ -88,7 +89,7 @@ describe('App E2E', () => {
         return pactum
           .spec()
           .post('/auth/signin')
-          .withJson({
+          .withBody({
             password: dto.password,
           })
           .expectStatus(400)
@@ -98,7 +99,7 @@ describe('App E2E', () => {
         return pactum
           .spec()
           .post('/auth/signin')
-          .withJson({
+          .withBody({
             email: dto.email,
           })
           .expectStatus(400)
@@ -112,7 +113,7 @@ describe('App E2E', () => {
         return pactum
           .spec()
           .post('/auth/signin')
-          .withJson(dto)
+          .withBody(dto)
           .expectStatus(200)
           .stores('userAccessToken', 'access_token')
       })
@@ -132,7 +133,24 @@ describe('App E2E', () => {
       })
     })
     describe('Edit user', () => {
-      it.todo
+      it('should edit current user', () => {
+        const dto: EditUserDto = {
+          email: 'aragorn@gondor.org',
+          firstName: 'Aragorn',
+          lastName: 'Elessar',
+        }
+        return pactum
+          .spec()
+          .patch('/users')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .withBody(dto)
+          .expectStatus(200)
+          .expectBodyContains(dto.email)
+          .expectBodyContains(dto.firstName)
+          .expectBodyContains(dto.lastName)
+      })
     })
   })
 
