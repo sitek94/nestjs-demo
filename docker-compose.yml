@@ -9,3 +9,12 @@ services:
       POSTGRES_USER: demo
       POSTGRES_PASSWORD: demo
       POSTGRES_DB: demo
+
+  db-test:
+    image: 'postgres:13'
+    ports:
+      - '5435:5432'
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo
