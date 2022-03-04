@@ -13,4 +13,12 @@ export class PrismaService extends PrismaClient {
       },
     })
   }
+
+  cleanDb() {
+    return this.$transaction([
+      // Bookmarks have to be deleted before Users, because of their relation
+      this.bookmark.deleteMany(),
+      this.user.deleteMany(),
+    ])
+  }
 }

@@ -3,17 +3,20 @@
 ## Tasks
 
 - [x] [Passport and JWT Token](https://youtu.be/GHTA143_b-s?t=5233)
-- [ ] [Custom param decorators](https://www.youtube.com/watch?v=GHTA143_b-s&t=12419s)
+- [x] [Custom param decorators](https://www.youtube.com/watch?v=GHTA143_b-s&t=12419s)
+- 
 
 ## Notes
 
 - `@Injectable()` decorator is used when you want to inject some dependencies into your class.
+- [Prisma: Cascade](https://www.prisma.io/docs/concepts/components/prisma-schema/relations/referential-actions#cascade) -
+  when `User` is deleted, then their post are deleted as well
 
 ## Resources
 
 - [NestJs Course for Beginners - Create a REST API](https://www.youtube.com/watch?v=GHTA143_b-s)
 - [argon2](https://github.com/ranisalt/node-argon2) - hashing password and token
-- [JWT](https://jwt.io/) - JSON Web Tokens
+- [JWT](https://jwt.io/) - JSON Web Tokens 
 
 ## Installation
 

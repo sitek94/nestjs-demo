@@ -1,6 +1,7 @@
 import { Test } from '@nestjs/testing'
 import { AppModule } from '../src/app.module'
 import { INestApplication, ValidationPipe } from '@nestjs/common'
+import { PrismaService } from '../src/prisma/prisma.service'
 
 /**
  * NestJS: Testing Utilities
@@ -9,6 +10,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common'
 
 describe('App E2E', () => {
   let app: INestApplication
+  let prismaService: PrismaService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -23,11 +25,16 @@ describe('App E2E', () => {
     )
 
     await app.init()
+
+    prismaService = app.get(PrismaService)
+    await prismaService.cleanDb()
   })
 
   afterAll(() => {
     app.close()
   })
 
-  it.todo('should pass')
+  describe('auth', () => {
+    it.todo('should be able to register')
+  })
 })
