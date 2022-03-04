@@ -114,13 +114,22 @@ describe('App E2E', () => {
           .post('/auth/signin')
           .withJson(dto)
           .expectStatus(200)
+          .stores('userAccessToken', 'access_token')
       })
     })
   })
 
   describe('Users', () => {
     describe('Get me', () => {
-      it.todo
+      it('should get current user', () => {
+        return pactum
+          .spec()
+          .get('/users/me')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .expectStatus(200)
+      })
     })
     describe('Edit user', () => {
       it.todo
