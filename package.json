@@ -10,6 +10,12 @@
     "db:dev:rm": "docker compose rm db -f -s -v",
     "db:dev:up": "docker compose up db -d",
     "db:dev:restart": "npm run db:dev:rm && npm run db:dev:up && npm run prisma:dev:deploy",
+
+    "prisma:test:deploy": "prisma migrate deploy",
+    "db:test:rm": "docker compose rm db-test -f -s -v",
+    "db:test:up": "docker compose up db-test -d",
+    "db:test:restart": "npm run db:test:rm && npm run db:test:up && npm run prisma:test:deploy",
+
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -22,7 +28,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e:watch": "npm run test:e2e -- --watch --no-cache"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -57,6 +64,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.2.5",
+    "pactum": "^3.1.4",
     "prettier": "^2.3.2",
     "prisma": "^3.10.0",
     "source-map-support": "^0.5.20",
