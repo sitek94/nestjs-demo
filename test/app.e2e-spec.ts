@@ -4,6 +4,8 @@ import * as pactum from 'pactum'
 
 import { AppModule } from '../src/app.module'
 import { AuthDto } from '../src/auth/dto'
+import { CreateBookmarkDto } from '../src/bookmarks/dto'
+import { EditBookmarkDto } from '../src/bookmarks/dto/edit-bookmark.dto'
 import { PrismaService } from '../src/prisma/prisma.service'
 import { EditUserDto } from '../src/user/dto'
 /**
@@ -155,24 +157,109 @@ describe('App E2E', () => {
   })
 
   describe('Bookmarks', () => {
+    describe('Get empty bookmarks', () => {
+      it('should get bookmarks', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .expectStatus(200)
+          .expectBody([])
+      })
+    })
+
     describe('Create bookmark', () => {
-      it.todo
+      const dto: CreateBookmarkDto = {
+        link: 'https://en.wikipedia.org/wiki/Gandalf',
+        title: 'Gandalf the Grey',
+        description: 'The Grey Pilgrim',
+      }
+      it('should create bookmark', () => {
+        return pactum
+          .spec()
+          .post('/bookmarks')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .withBody(dto)
+          .expectStatus(201)
+          .stores('bookmarkId', 'id')
+      })
     })
 
     describe('Get bookmarks', () => {
-      it.todo
+      it('should get bookmarks', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .expectStatus(200)
+          .expectJsonLength(1)
+      })
     })
 
     describe('Get bookmarks by id', () => {
-      it.todo
+      it('should get bookmark by id', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks/{id}')
+          .withPathParams('id', '$S{bookmarkId}')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .expectStatus(200)
+          .expectBodyContains('$S{bookmarkId}')
+      })
     })
 
-    describe('Edit bookmark', () => {
-      it.todo
+    describe('Edit bookmark by id', () => {
+      it('should edit bookmark by id', () => {
+        const dto: EditBookmarkDto = {
+          link: 'https://en.wikipedia.org/wiki/Gandalf#Gandalf_the_White',
+          title: 'Gandalf the White',
+          description: 'The White Rider',
+        }
+        return pactum
+          .spec()
+          .patch('/bookmarks/{id}')
+          .withPathParams('id', '$S{bookmarkId}')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .withBody(dto)
+          .expectStatus(200)
+          .expectBodyContains(dto.link)
+          .expectBodyContains(dto.title)
+          .expectBodyContains(dto.description)
+      })
     })
 
     describe('Delete bookmark', () => {
-      it.todo
+      it('should delete bookmark', () => {
+        return pactum
+          .spec()
+          .delete('/bookmarks/{id}')
+          .withPathParams('id', '$S{bookmarkId}')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .expectStatus(204)
+      })
+
+      it('should get empty bookmarks', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .expectStatus(200)
+          .expectJsonLength(0)
+      })
     })
   })
 })
