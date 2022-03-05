@@ -1,11 +1,5 @@
 # NestJS Demo
 
-## Tasks
-
-- [x] [Passport and JWT Token](https://youtu.be/GHTA143_b-s?t=5233)
-- [x] [Custom param decorators](https://www.youtube.com/watch?v=GHTA143_b-s&t=12419s)
-- 
-
 ## Notes
 
 - `@Injectable()` decorator is used when you want to inject some dependencies into your class.
